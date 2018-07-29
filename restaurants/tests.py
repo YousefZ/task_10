@@ -2,7 +2,7 @@ from django.test import TestCase, RequestFactory
 from django.urls import reverse
 from django.contrib.auth.models import User
 from restaurants.models import Restaurant, Item
-from restaurants.forms import RestaurantForm, ItemForm, SignupForm, SigninForm
+from restaurants.forms import RestaurantForm, createItem, SignupForm, SigninForm
 from restaurants.views import restaurant_create
 
 class ModelTestCase(TestCase):
@@ -29,7 +29,7 @@ class ModelTestCase(TestCase):
             price=1.750,
             restaurant=restaurant,
             )
-    
+
 
 class ViewTestCase(TestCase):
     def setUp(self):
@@ -83,7 +83,7 @@ class ViewTestCase(TestCase):
 
         self.restaurant_2 = Restaurant.objects.create(
             owner=self.user2,
-            name="Restaurant 2", 
+            name="Restaurant 2",
             description="This is Restaurant 2",
             opening_time="00:01:00",
             closing_time="23:59:00",
@@ -122,7 +122,7 @@ class ViewTestCase(TestCase):
             price=1.750,
             restaurant=self.restaurant_3,
             )
-        
+
         self.user_data_1 = {
             "username": "bob",
             "password": "adminadmin"
@@ -177,7 +177,7 @@ class ViewTestCase(TestCase):
         self.assertEqual(response2.status_code, 302)
 
     def test_item_create_view(self):
-        create_url = reverse("item-create", kwargs={"restaurant_id":self.restaurant_1.id})
+        create_url = reverse("item_create", kwargs={"restaurant_id":self.restaurant_1.id})
         response = self.client.get(create_url)
         self.assertEqual(response.status_code, 200)
 
@@ -221,7 +221,7 @@ class ViewTestCase(TestCase):
 
     def test_signin_view(self):
         signin_url = reverse("signin")
-        
+
         response = self.client.get(signin_url)
         self.assertEqual(response.status_code, 200)
 
@@ -272,7 +272,7 @@ class RestaurantFormTestCase(TestCase):
         form = RestaurantForm(data=data)
         self.assertFalse(form.is_valid())
 
-class ItemFormTestCase(TestCase):
+class createItemTestCase(TestCase):
     def test_valid_form(self):
         name = "A Pizza Shop"
         description = "Best pizza shop in the neighbourhood."
@@ -282,7 +282,7 @@ class ItemFormTestCase(TestCase):
             'description': description,
             'price': price,
         }
-        form = ItemForm(data=data)
+        form = createItem(data=data)
         self.assertTrue(form.is_valid())
         self.assertEqual(form.cleaned_data.get('name'), name)
         self.assertEqual(form.cleaned_data.get('description'), description)
@@ -304,9 +304,9 @@ class ItemFormTestCase(TestCase):
             'price':price,
             'description': description,
         }
-        form = ItemForm(data=data)
-        form2 = ItemForm(data=data2)
-        form3 = ItemForm(data=data3)
+        form = createItem(data=data)
+        form2 = createItem(data=data2)
+        form3 = createItem(data=data3)
         self.assertFalse(form.is_valid())
         self.assertFalse(form2.is_valid())
         self.assertFalse(form3.is_valid())

@@ -23,6 +23,14 @@
             <a href="{% url 'restaurant-delete' restaurant.id %}" class="btn btn-outline-danger btn-block">Delete</a>
         </div>
     </div>
+    <a href="{% url 'item_create' restaurant.id %}" class="btn btn-outline-danger btn-block">Add Item</a>
+    <div class="card-body">
+    <h2>  Items Set</h2>
+    {% for item in items %}
+    {{item.name}} {{item.description}} {{item.price}}</br>
+    {% endfor %}
+    </div>
+
   </div>
 </div>
 {% endblock content %}

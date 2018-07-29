@@ -4,7 +4,7 @@
 {% block title %}Signin{% endblock title %}
 
 {% block content %}
-    
+
 <br>
 <div class="card">
   <h5 class="card-header">Signin</h5>
@@ -14,8 +14,11 @@
             {% csrf_token %}
             {{form|crispy}}
             <input type="submit" value="Signin" class="btn btn-outline-primary">
+Dont have an account ? <a href="{% url 'signup' %}">Signup</a>
         </form>
+
     </p>
+
   </div>
 </div>
 {% endblock content %}
